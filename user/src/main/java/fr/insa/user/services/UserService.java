@@ -1,14 +1,13 @@
 package fr.insa.user.services;
 
+import fr.insa.user.exceptions.ModelNotValidException;
 import fr.insa.user.models.User;
 import fr.insa.user.repositories.UserRepository;
 import fr.insa.user.resources.dto.UserRequest;
-import fr.insa.user.resources.dto.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Service
 public class UserService {
@@ -16,7 +15,18 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
+    public boolean UserModelIsValid(UserRequest userRequest) throws ModelNotValidException {
+        ModelNotValidException ex = new ModelNotValidException();
+
+        // TODO : verif mail / usernam and passwords
+
+        return true;
+    }
+
     public User saveUser(UserRequest userRequest) {
+
+        // TODO : verif mail / usernam and passwords
+
         User tosave = new User();
 
         tosave.setUsername(userRequest.getUsername());
