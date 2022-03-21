@@ -1,0 +1,12 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: user-managment # application name
+  config:
+    import: "optional:configserver:"
+  data:
+    mongodb:
+      uri: mongodb+srv://BDD:*BDD2022*@quizz-cluster.iq9wt.mongodb.net/user-db
+      database: user-db
