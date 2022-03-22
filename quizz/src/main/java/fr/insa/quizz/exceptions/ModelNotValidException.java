@@ -15,5 +15,5 @@ public class ModelNotValidException  extends RuntimeException{
     private List<String> messages;
 
     public ModelNotValidException() {
-        this.messages = new ArrayList<>();
+        this.messages = new ArrayList<>(); }
 }

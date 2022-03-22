@@ -1,5 +1,7 @@
-package fr.insa.quizz.ressources.dto;
+package fr.insa.quizz.ressources;
 
+import fr.insa.quizz.exceptions.FonctionnalProcessException;
+import fr.insa.quizz.exceptions.ModelNotValidException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
