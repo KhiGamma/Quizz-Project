@@ -14,7 +14,7 @@ public class QuizzResource extends CommonResource {
     QuizzService quizzService;
 
     @GetMapping
-    public QuizzResponse getQuizz(@RequestParam(name = "num") int num) {
-        return new QuizzResponse(this.quizzService.getQuizzByNumber(num));
+    public QuizzResponse getQuizz(@RequestParam(name = "id") String id) {
+        return new QuizzResponse(this.quizzService.getQuizzById(id));
     }
 }

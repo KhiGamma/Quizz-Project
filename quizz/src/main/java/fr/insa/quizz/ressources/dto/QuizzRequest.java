@@ -10,5 +10,5 @@ import lombok.*;
 @Builder
 public class QuizzRequest {
 
-    private int number;
+    private int id;
 }

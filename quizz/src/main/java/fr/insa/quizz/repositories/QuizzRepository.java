@@ -5,5 +5,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface QuizzRepository extends MongoRepository<Quizz, String> {
 
-    Quizz findQuizzByNumber(int number);
+    Quizz findQuizzByIdEquals(String id);
 }

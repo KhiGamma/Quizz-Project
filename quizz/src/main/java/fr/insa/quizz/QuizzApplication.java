@@ -11,7 +11,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 public class QuizzApplication {
 
 	@Autowired
-	QuizzRepository userRepository;
+	QuizzRepository quizzRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(QuizzApplication.class, args);
