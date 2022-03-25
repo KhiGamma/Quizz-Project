@@ -24,6 +24,7 @@ public class UserService {
 
         if (userRequest == null) {
             ex.getMessages().add("userRequest : null");
+            throw ex;
         }
 
         if (userRequest.getUsername() == null || userRequest.getUsername().isBlank()) {
@@ -38,7 +39,7 @@ public class UserService {
         if (userRepository.findUserByUsernameEquals(userRequest.getUsername()) != null) {
             ex.getMessages().add("Username already used");
         }
-        if (userRepository.findUserByEmailEquals(userRequest.getEmail()) != null) {
+        if (userRepository.existsUserByEmail(userRequest.getEmail())) {
             ex.getMessages().add("Email already used");
         }
 
