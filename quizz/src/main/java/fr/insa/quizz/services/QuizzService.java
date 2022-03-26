@@ -50,16 +50,17 @@ public class QuizzService {
         int id = 0;
 
         do {
-            id = (int) (Math.random() * (99999 - 10000 + 1) + 10000);
-
-        } while(!this.quizzRepository.exitAnswerId(id).isEmpty());
+            id = (int) (Math.random() * (10 - 1 + 1) + 1);
+        } while(this.quizzRepository.exitAnswerId(id).isPresent());
 
         return id;
     }
 
     private void quizzIsValid(QuizzRequest quizzRequest) {
 
+    }
 
-
+    public boolean test(int id) {
+        return this.quizzRepository.exitAnswerId(id).isPresent();
     }
 }
