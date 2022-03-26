@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -73,8 +74,8 @@ public class UserService {
         }
     }
 
-    public User getUserById(String id) throws UserNotFoundException {
-        return this.userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(String.format(USER_NOT_FOUND, "id", id)));
+    public Optional<User> getUserById(String id) throws UserNotFoundException {
+        return this.userRepository.findById(id);
     }
 
     public User updateUser(String username, UserRequest userRequest) {
@@ -98,5 +99,9 @@ public class UserService {
     public void deleteUser(String username) {
         String userId = this.getUserByUserName(username).getId();
         this.userRepository.deleteById(userId);
+    }
+
+    public Optional<User> getUserByEmailAndPassword(String email, String password) {
+        return this.userRepository.findUserByEmailAndPassword(email, password);
     }
 }
