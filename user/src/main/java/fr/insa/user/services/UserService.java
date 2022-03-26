@@ -64,18 +64,11 @@ public class UserService {
     }
 
     public User getUserByUserName(String username) throws UserNotFoundException {
-        User user = this.userRepository.findUserByUsernameEquals(username);
-
-        if (user == null) {
-            throw new UserNotFoundException(String.format(USER_NOT_FOUND, "username", username));
-        }
-        else {
-            return user;
-        }
+        return this.userRepository.findUserByUsernameEquals(username).orElseThrow(() -> new UserNotFoundException(String.format(USER_NOT_FOUND, "username", username)));
     }
 
-    public Optional<User> getUserById(String id) throws UserNotFoundException {
-        return this.userRepository.findById(id);
+    public User getUserById(String id) {
+        return this.userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(String.format(USER_NOT_FOUND, "id", id)));
     }
 
     public User updateUser(String username, UserRequest userRequest) {

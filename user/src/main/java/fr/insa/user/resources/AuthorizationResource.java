@@ -23,11 +23,6 @@ public class AuthorizationResource {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
-    @PostMapping("register")
-    public ResponseEntity<UserResponse> register(@RequestBody UserRequest userRequest) {
-        return ResponseEntity.ok(new UserResponse(this.userService.saveUser(userRequest)));
-    }
-
     @PostMapping("login")
     public ResponseEntity login(@RequestBody UserLoginRequest userLoginRequest) {
         return this.userService.getUserByEmailAndPassword(userLoginRequest.getEmail(), userLoginRequest.getPassword())
@@ -43,11 +38,8 @@ public class AuthorizationResource {
 
             if (jwtTokenProvider.validateToken(jwt)) {
                 String userId = jwtTokenProvider.getUserIdFromJWT(jwt);
-                Optional<User> user = this.userService.getUserById(userId);
 
-                if(user.isPresent()) {
-                    return ResponseEntity.ok().build();
-                }
+                return ResponseEntity.ok(new UserResponse(this.userService.getUserById(userId)));
             }
         }
         return new ResponseEntity("You are not allowed to access this ressource", HttpStatus.UNAUTHORIZED);
