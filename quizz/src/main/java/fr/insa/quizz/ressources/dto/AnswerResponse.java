@@ -10,13 +10,13 @@ import lombok.*;
 @Builder
 public class AnswerResponse {
 
-    private  String id;
+    private int id;
     private String content;
 
     public AnswerResponse(Answers answers) {
 
         this.id = answers.getId();
-        this.content = answers.getAnswer();
+        this.content = answers.getContent();
     }
 
 }

@@ -17,4 +17,9 @@ public class QuizzResource extends CommonResource {
     public QuizzResponse getQuizz(@RequestParam(name = "id") String id) {
         return new QuizzResponse(this.quizzService.getQuizzById(id));
     }
+
+    @PostMapping
+    public QuizzResponse registerQuizz(@RequestBody QuizzRequest quizzRequest) {
+        return new QuizzResponse(this.quizzService.saveQuizz(quizzRequest));
+    }
 }
