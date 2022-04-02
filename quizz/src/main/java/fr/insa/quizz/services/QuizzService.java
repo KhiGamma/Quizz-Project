@@ -1,6 +1,7 @@
 package fr.insa.quizz.services;
 
 import fr.insa.quizz.exceptions.ModelNotValidException;
+import fr.insa.quizz.exceptions.QuizzNotFoundException;
 import fr.insa.quizz.models.Answers;
 import fr.insa.quizz.models.Quizz;
 import fr.insa.quizz.repositories.QuizzRepository;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class QuizzService {
@@ -19,9 +21,9 @@ public class QuizzService {
     @Autowired
     QuizzRepository quizzRepository;
 
-    public Quizz getQuizzById(String id) {
+    public Quizz getQuizzById(String id) throws QuizzNotFoundException {
 
-        return this.quizzRepository.findQuizzByIdEquals(id);
+        return this.quizzRepository.findById(id).orElseThrow(()-> new QuizzNotFoundException("No quizz find"));
     }
 
     public Quizz saveQuizz(QuizzRequest quizzRequest) {
@@ -38,29 +40,20 @@ public class QuizzService {
 
         for(AnswerRequest a : quizzRequest.getAnswers()) {
             Answers answer = new Answers(a);
-            answer.setId(genererIdAsnwer());
             tosave.getAnswers().add(answer);
         }
 
         return this.quizzRepository.save(tosave);
     }
 
-    private int genererIdAsnwer() {
-
-        int id = 0;
-
-        do {
-            id = (int) (Math.random() * (10 - 1 + 1) + 1);
-        } while(this.quizzRepository.exitAnswerId(id).isPresent());
-
-        return id;
-    }
 
     private void quizzIsValid(QuizzRequest quizzRequest) {
 
     }
 
-    public boolean test(int id) {
-        return this.quizzRepository.exitAnswerId(id).isPresent();
+
+    public void deleteQuizz(String quizzId) {
+
+        this.quizzRepository.deleteById(quizzId);
     }
 }

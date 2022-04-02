@@ -9,11 +9,4 @@ import java.util.Optional;
 
 public interface QuizzRepository extends MongoRepository<Quizz, String> {
 
-    Quizz findQuizzByIdEquals(String id);
-
-    @Query("{ 'answers.id' : { $eq: '?0' } }")
-    Optional<Quizz> exitAnswerId(int id);
-
-
-
 }
