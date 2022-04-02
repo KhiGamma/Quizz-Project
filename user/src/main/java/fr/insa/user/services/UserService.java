@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -24,6 +25,7 @@ public class UserService {
 
         if (userRequest == null) {
             ex.getMessages().add("userRequest : null");
+            throw ex;
         }
 
         if (userRequest.getUsername() == null || userRequest.getUsername().isBlank()) {
@@ -38,7 +40,7 @@ public class UserService {
         if (userRepository.findUserByUsernameEquals(userRequest.getUsername()) != null) {
             ex.getMessages().add("Username already used");
         }
-        if (userRepository.findUserByEmailEquals(userRequest.getEmail()) != null) {
+        if (userRepository.existsUserByEmail(userRequest.getEmail())) {
             ex.getMessages().add("Email already used");
         }
 
@@ -72,8 +74,8 @@ public class UserService {
         }
     }
 
-    public User getUserById(String id) throws UserNotFoundException {
-        return this.userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(String.format(USER_NOT_FOUND, "id", id)));
+    public Optional<User> getUserById(String id) throws UserNotFoundException {
+        return this.userRepository.findById(id);
     }
 
     public User updateUser(String username, UserRequest userRequest) {
@@ -97,5 +99,9 @@ public class UserService {
     public void deleteUser(String username) {
         String userId = this.getUserByUserName(username).getId();
         this.userRepository.deleteById(userId);
+    }
+
+    public Optional<User> getUserByEmailAndPassword(String email, String password) {
+        return this.userRepository.findUserByEmailAndPassword(email, password);
     }
 }

@@ -22,6 +22,6 @@ public class Quizz {
     private String theme;
     private int difficulty;
 
-    @DBRef
+    //@DBRef
     List<Answers> answers;
 }
