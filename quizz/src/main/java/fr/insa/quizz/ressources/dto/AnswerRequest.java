@@ -10,5 +10,6 @@ import lombok.*;
 public class AnswerRequest {
 
     private String content;
+    private int nbAnswer;
     private boolean valid;
 }

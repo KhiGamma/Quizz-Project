@@ -10,6 +10,7 @@ import fr.insa.quizz.ressources.dto.AnswerResponse;
 import fr.insa.quizz.ressources.dto.QuizzRequest;
 import fr.insa.quizz.ressources.dto.QuizzResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.expression.spel.ast.NullLiteral;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class QuizzService {
     public Quizz saveQuizz(QuizzRequest quizzRequest) {
 
         //TODO effectuer les verif lors de l'insertion des donnees
-        // quizzIsValid(quizzRequest);
+        quizzIsValid(quizzRequest);
 
         Quizz tosave = new Quizz();
 
@@ -48,6 +49,28 @@ public class QuizzService {
 
 
     private void quizzIsValid(QuizzRequest quizzRequest) {
+        ModelNotValidException ex = new ModelNotValidException();
+
+        if (quizzRequest == null) {
+            ex.getMessages().add("quizzRequest : null");
+            throw ex;
+        }
+
+        if (quizzRequest.getContent() == null || quizzRequest.getContent().isBlank()) {
+            ex.getMessages().add("Content is blank or null");
+        }
+
+        if (quizzRequest.getTheme() == null || quizzRequest.getTheme().isBlank()) {
+            ex.getMessages().add("Theme is blank or null");
+        }
+
+        if (quizzRequest.getDifficulty() != 1 || quizzRequest.getDifficulty() != 2 || quizzRequest.getDifficulty() != 3) {
+            ex.getMessages().add("Difficulty not exist");
+        }
+
+        if (quizzRequest.getAnswers().size() == 4) {
+            ex.getMessages().add("Answers number problem");
+        }
 
     }
 

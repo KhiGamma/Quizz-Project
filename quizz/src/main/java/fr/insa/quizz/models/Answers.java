@@ -16,11 +16,8 @@ import java.util.List;
 @Builder
 public class Answers {
 
-    //@Id
-    //private String id;
-
-    private int id;
     private String content;
+    private int nbAnswer;
     private boolean valid;
 
 
@@ -28,6 +25,7 @@ public class Answers {
     public Answers(AnswerRequest answerRequest) {
 
         this.content = answerRequest.getContent();
+        this.nbAnswer = answerRequest.getNbAnswer();
         this.valid = answerRequest.isValid();
     }
 }
