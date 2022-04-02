@@ -19,7 +19,7 @@ public class UserResource extends CommonResource {
         return new UserResponse(this.userService.getUserByUserName(name));
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public UserResponse registerUser(@RequestBody UserRequest userRequest) {
         return new UserResponse(this.userService.saveUser(userRequest));
     }

@@ -37,7 +37,7 @@ public class UserService {
         if (userRequest.getPassword() == null || userRequest.getPassword().isBlank()) {
             ex.getMessages().add("Password is blank");
         }
-        if (userRepository.findUserByUsernameEquals(userRequest.getUsername()) != null) {
+        if (userRepository.findUserByUsernameEquals(userRequest.getUsername()).isPresent()) {
             ex.getMessages().add("Username already used");
         }
         if (userRepository.existsUserByEmail(userRequest.getEmail())) {
@@ -67,7 +67,7 @@ public class UserService {
         return this.userRepository.findUserByUsernameEquals(username).orElseThrow(() -> new UserNotFoundException(String.format(USER_NOT_FOUND, "username", username)));
     }
 
-    public User getUserById(String id) {
+    public User getUserById(String id) throws UserNotFoundException {
         return this.userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(String.format(USER_NOT_FOUND, "id", id)));
     }
 

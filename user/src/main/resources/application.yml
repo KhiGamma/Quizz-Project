@@ -1,9 +1,11 @@
 server:
   port: 8070
+  servlet:
+    context-path: /user-managment
 
 spring:
   application:
-    name: user-managment # application name
+    name: user-service # application name
   config:
     import: "optional:configserver:"
   data:
