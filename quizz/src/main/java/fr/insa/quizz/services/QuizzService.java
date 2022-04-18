@@ -29,7 +29,6 @@ public class QuizzService {
 
     public Quizz saveQuizz(QuizzRequest quizzRequest) {
 
-        //TODO effectuer les verif lors de l'insertion des donnees
         quizzIsValid(quizzRequest);
 
         Quizz tosave = new Quizz();
@@ -48,7 +47,7 @@ public class QuizzService {
     }
 
 
-    private void quizzIsValid(QuizzRequest quizzRequest) {
+    private void quizzIsValid(QuizzRequest quizzRequest) throws ModelNotValidException{
         ModelNotValidException ex = new ModelNotValidException();
 
         if (quizzRequest == null) {
@@ -68,7 +67,7 @@ public class QuizzService {
             ex.getMessages().add("Difficulty not exist");
         }
 
-        if (quizzRequest.getAnswers().size() == 4) {
+        if (quizzRequest.getAnswers().size() != 4) {
             ex.getMessages().add("Answers number problem");
         }
 

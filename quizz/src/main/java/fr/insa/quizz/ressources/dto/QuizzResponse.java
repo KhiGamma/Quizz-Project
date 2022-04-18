@@ -17,11 +17,13 @@ public class QuizzResponse {
 
     private String content;
     private String theme;
+    private int difficulty;
     List<AnswerResponse> answers;
 
     public QuizzResponse(Quizz quizz) {
         this.content = quizz.getContent();
         this.theme = quizz.getTheme();
+        this.difficulty = quizz.getDifficulty();
         this.answers = new ArrayList<>();
 
         for(Answers a : quizz.getAnswers()) {

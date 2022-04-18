@@ -11,7 +11,8 @@ import java.util.List;
 @Getter
 @Setter
 @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-public class ModelNotValidException  extends RuntimeException{
+public class ModelNotValidException  extends RuntimeException {
+
     private List<String> messages;
 
     public ModelNotValidException() {
