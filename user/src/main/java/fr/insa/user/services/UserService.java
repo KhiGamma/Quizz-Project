@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -96,5 +97,9 @@ public class UserService {
 
     public Optional<User> getUserByEmailAndPassword(String email, String password) {
         return this.userRepository.findUserByEmailAndPassword(email, password);
+    }
+
+    public List<User> getLeaderBoard() {
+        return this.userRepository.findAllByOrderByScoreDesc();
     }
 }
