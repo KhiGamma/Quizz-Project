@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,7 +38,7 @@ public class UserService {
         if (userRequest.getPassword() == null || userRequest.getPassword().isBlank()) {
             ex.getMessages().add("Password is blank");
         }
-        if (userRepository.findUserByUsernameEquals(userRequest.getUsername()) != null) {
+        if (userRepository.findUserByUsernameEquals(userRequest.getUsername()).isPresent()) {
             ex.getMessages().add("Username already used");
         }
         if (userRepository.existsUserByEmail(userRequest.getEmail())) {
@@ -64,18 +65,11 @@ public class UserService {
     }
 
     public User getUserByUserName(String username) throws UserNotFoundException {
-        User user = this.userRepository.findUserByUsernameEquals(username);
-
-        if (user == null) {
-            throw new UserNotFoundException(String.format(USER_NOT_FOUND, "username", username));
-        }
-        else {
-            return user;
-        }
+        return this.userRepository.findUserByUsernameEquals(username).orElseThrow(() -> new UserNotFoundException(String.format(USER_NOT_FOUND, "username", username)));
     }
 
-    public Optional<User> getUserById(String id) throws UserNotFoundException {
-        return this.userRepository.findById(id);
+    public User getUserById(String id) throws UserNotFoundException {
+        return this.userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(String.format(USER_NOT_FOUND, "id", id)));
     }
 
     public User updateUser(String username, UserRequest userRequest) {
@@ -103,5 +97,9 @@ public class UserService {
 
     public Optional<User> getUserByEmailAndPassword(String email, String password) {
         return this.userRepository.findUserByEmailAndPassword(email, password);
+    }
+
+    public List<User> getLeaderBoard() {
+        return this.userRepository.findAllByOrderByScoreDesc();
     }
 }
