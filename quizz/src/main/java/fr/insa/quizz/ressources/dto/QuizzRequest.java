@@ -1,6 +1,7 @@
 package fr.insa.quizz.ressources.dto;
 
 import fr.insa.quizz.models.Answers;
+import fr.insa.quizz.models.Quizz;
 import lombok.*;
 
 import java.util.List;

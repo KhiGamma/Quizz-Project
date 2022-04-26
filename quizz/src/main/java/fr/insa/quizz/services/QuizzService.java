@@ -13,8 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.spel.ast.NullLiteral;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class QuizzService {
@@ -47,7 +46,7 @@ public class QuizzService {
     }
 
 
-    private void quizzIsValid(QuizzRequest quizzRequest) throws ModelNotValidException{
+    private void quizzIsValid(QuizzRequest quizzRequest) throws ModelNotValidException {
         ModelNotValidException ex = new ModelNotValidException();
 
         if (quizzRequest == null) {
@@ -63,19 +62,70 @@ public class QuizzService {
             ex.getMessages().add("Theme is blank or null");
         }
 
-        if (quizzRequest.getDifficulty() != 1 || quizzRequest.getDifficulty() != 2 || quizzRequest.getDifficulty() != 3) {
+        if (quizzRequest.getDifficulty() < 1 || quizzRequest.getDifficulty() > 3) {
             ex.getMessages().add("Difficulty not exist");
         }
 
         if (quizzRequest.getAnswers().size() != 4) {
-            ex.getMessages().add("Answers number problem");
+            ex.getMessages().add("Answers count problem");
         }
 
+        int somme = 0;
+
+        for (AnswerRequest answerRequest : quizzRequest.getAnswers()) {
+            somme += (answerIsValid(answerRequest, ex, quizzRequest.getAnswers().indexOf(answerRequest)+1))?1:0;
+        }
+
+        if (somme != 1){
+            ex.getMessages().add("Nombre de réponses valides incorrect");
+        }
+
+        if(!ex.getMessages().isEmpty()) {
+            throw  ex;
+        }
+    }
+
+    public boolean answerIsValid(AnswerRequest answerRequest, ModelNotValidException ex, int nbAnswer) {
+
+        if(answerRequest.getNbAnswer() != nbAnswer) {
+            ex.getMessages().add("Answer number not valid");
+        }
+
+        if (answerRequest.getContent() == null || answerRequest.getContent().isBlank()) {
+            ex.getMessages().add("Content is blank or null");
+        }
+
+        return answerRequest.isValid();
     }
 
 
     public void deleteQuizz(String quizzId) {
-
         this.quizzRepository.deleteById(quizzId);
+    }
+
+
+    public List<Quizz> getQuestions() {
+        return this.quizzRepository.findAll();
+    }
+
+    public List<Quizz> getRandomQuestions() {
+
+        Random random = new Random();
+        int nbRand;
+        int nbQuestions = Integer.parseInt(this.quizzRepository.nbQuestions().toString());
+        List<Quizz> randomQuestions = new ArrayList<>();
+        List<Integer> nbTire = new ArrayList<>();
+
+        for(int i=0;i<5;i++) {
+
+            do {
+                nbRand = random.nextInt(nbQuestions) + 1;
+            } while(nbTire.contains(nbRand));
+            nbTire.add(nbRand);
+            Quizz quizz = this.quizzRepository.randomQuestions(nbRand);
+            randomQuestions.add(quizz);
+        }
+
+        return randomQuestions;
     }
 }
