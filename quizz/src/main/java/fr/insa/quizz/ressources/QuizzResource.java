@@ -56,7 +56,7 @@ public class QuizzResource extends CommonResource {
                 ));
     }
 
-    @GetMapping("/quizzQuestions")
+    @GetMapping("/quizz-questions")
     public ResponseEntity<List<QuizzResponse>> quizzQuestions() {
         return ResponseEntity.ok(
                 new ArrayList<>(
