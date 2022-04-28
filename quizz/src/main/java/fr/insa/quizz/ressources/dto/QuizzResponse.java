@@ -15,12 +15,14 @@ import java.util.Optional;
 @Builder
 public class QuizzResponse {
 
+    private String id;
     private String content;
     private String theme;
     private int difficulty;
     List<AnswerResponse> answers;
 
     public QuizzResponse(Quizz quizz) {
+        this.id = quizz.getId();
         this.content = quizz.getContent();
         this.theme = quizz.getTheme();
         this.difficulty = quizz.getDifficulty();

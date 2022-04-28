@@ -1,0 +1,13 @@
+server:
+  port: 8050
+
+spring:
+  config:
+    import: "optional:configserver:"
+  application:
+    name: game-service
+  cloud:
+    loadbalancer:
+      ribbon:
+        enable: false
+

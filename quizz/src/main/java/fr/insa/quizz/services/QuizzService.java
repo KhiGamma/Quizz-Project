@@ -5,10 +5,7 @@ import fr.insa.quizz.exceptions.QuizzNotFoundException;
 import fr.insa.quizz.models.Answers;
 import fr.insa.quizz.models.Quizz;
 import fr.insa.quizz.repositories.QuizzRepository;
-import fr.insa.quizz.ressources.dto.AnswerRequest;
-import fr.insa.quizz.ressources.dto.AnswerResponse;
-import fr.insa.quizz.ressources.dto.QuizzRequest;
-import fr.insa.quizz.ressources.dto.QuizzResponse;
+import fr.insa.quizz.ressources.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.spel.ast.NullLiteral;
 import org.springframework.stereotype.Service;
@@ -127,5 +124,15 @@ public class QuizzService {
         }
 
         return randomQuestions;
+    }
+
+    public int checkAnswers(List<UserAnswersRequest> userAnswersRequests) {
+        int score = 0;
+
+        for(UserAnswersRequest userAnswer : userAnswersRequests) {
+            Quizz q = this.getQuizzById(userAnswer.getId());
+            score += q.getAnswers().get(userAnswer.getNbAnswer() - 1).isValid()?1:0;
+        }
+        return score;
     }
 }
