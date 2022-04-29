@@ -102,4 +102,15 @@ public class UserService {
     public List<User> getLeaderBoard() {
         return this.userRepository.findAllByOrderByScoreDesc();
     }
+
+    public void updateScore(String userName, int score) {
+        User user = this.getUserByUserName(userName);
+        int newScore = user.getScore() + score;
+
+        if (newScore != user.getScore()) {
+            user.setScore(newScore);
+            user.setNbGame(user.getNbGame() + 1);
+            this.userRepository.save(user);
+        }
+    }
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.PathParam;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,5 +48,11 @@ public class UserResource extends CommonResource {
                 new ArrayList<>(
                         this.userService.getLeaderBoard().stream().map(UserLeaderboardResponse::new).collect(Collectors.toList())
                 ));
+    }
+
+    @PutMapping("/{username}/update-score")
+    public ResponseEntity updatescore(@PathVariable("username") String userName, @RequestParam(name = "score") int score) {
+        this.userService.updateScore(userName, score);
+        return ResponseEntity.ok().build();
     }
 }
