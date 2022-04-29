@@ -15,11 +15,16 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class JwtCustomFilter extends AbstractGatewayFilterFactory<JwtCustomFilter.Config> {
 
     private final WebClient.Builder webClientBuilder;
+
+    public final List<String> WHITE_LIST = new ArrayList<>(Arrays.asList("register", "login", "leaderboard"));
 
     public JwtCustomFilter(WebClient.Builder webClientBuilder) {
         super(Config.class);
@@ -29,7 +34,7 @@ public class JwtCustomFilter extends AbstractGatewayFilterFactory<JwtCustomFilte
     @Override
     public GatewayFilter apply(Config config) {
         return ((exchange, chain) -> {
-            if(exchange.getRequest().getPath().elements().stream().anyMatch(elem -> elem.value().equals("register") || elem.value().equals("games") || elem.value().equals("login"))) {
+            if(exchange.getRequest().getPath().elements().stream().anyMatch(elem -> WHITE_LIST.contains(elem.value()))) {
                 return chain.filter(exchange);
             }
 
