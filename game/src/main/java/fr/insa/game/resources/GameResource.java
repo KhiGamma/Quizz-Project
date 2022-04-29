@@ -1,14 +1,14 @@
 package fr.insa.game.resources;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.insa.game.resources.dto.QuizzResponse;
 import fr.insa.game.resources.dto.UserAnswersRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -32,10 +32,15 @@ public class GameResource {
         return quizzResponses;
     }
 
-    @RequestMapping("/check-answers")
-    public int checkAnswers(@RequestBody List<UserAnswersRequest> userAnswersRequests) {
-        Integer score = restTemplate.exchange("http://quizz-service/quizz-managment/quizz/check-answers", HttpMethod.GET, new HttpEntity<>(userAnswersRequests), Integer.class).getBody();
-        //Integer score = restTemplate.getForObject("http://quizz-service/quizz-managment/quizz/check-answers", Integer.class, userAnswersRequests);
+    @PostMapping("/check-answers")
+    public int checkAnswers(@RequestBody List<UserAnswersRequest> userAnswersRequests) throws JsonProcessingException {
+        Integer score = -1;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<List<UserAnswersRequest>> entity = new HttpEntity<>(userAnswersRequests, headers);
+        score = restTemplate.postForObject("http://quizz-service/quizz-managment/quizz/check-answers", entity, int.class);
+
         return score;
     }
 

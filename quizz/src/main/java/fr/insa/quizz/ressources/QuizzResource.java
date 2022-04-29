@@ -64,8 +64,9 @@ public class QuizzResource extends CommonResource {
                 ));
     }
 
-    @GetMapping("/check-answers")
+    @PostMapping("/check-answers")
     public int checkAnswers(@RequestBody List<UserAnswersRequest> userAnswersRequests) {
+        System.out.println("je suis quizz");
         return this.quizzService.checkAnswers(userAnswersRequests);
     }
 

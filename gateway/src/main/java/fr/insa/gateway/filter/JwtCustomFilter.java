@@ -29,7 +29,7 @@ public class JwtCustomFilter extends AbstractGatewayFilterFactory<JwtCustomFilte
     @Override
     public GatewayFilter apply(Config config) {
         return ((exchange, chain) -> {
-            if(exchange.getRequest().getPath().elements().stream().anyMatch(elem -> elem.value().equals("register") || elem.value().equals("login"))) {
+            if(exchange.getRequest().getPath().elements().stream().anyMatch(elem -> elem.value().equals("register") || elem.value().equals("games") || elem.value().equals("login"))) {
                 return chain.filter(exchange);
             }
 

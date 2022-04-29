@@ -1,9 +1,6 @@
-server:
-  port: 8050
-
 spring:
   config:
-    import: "optional:configserver:"
+    import: "configserver:http://localhost:8888"
   application:
     name: game-service
   cloud:
